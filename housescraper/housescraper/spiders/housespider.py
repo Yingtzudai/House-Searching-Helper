@@ -34,8 +34,7 @@ class HousespiderSpider(scrapy.Spider):
         energy = response.css('section.page__details--energy')
         condition = response.css('section.page__details--contract_conditions')
         agent = response.css('section.agent-summary')
-        agent_page = 'https://www.pararius.com' + 'a.agent-summary__title-link::attr(href)'
-
+        # agent_page = 'https://www.pararius.com' + 'a.agent-summary__title-link::attr(href)'
         house_item['house_name']= house.css('h1.listing-detail-summary__title::text').get()
         house_item['address']= house.css('div.listing-detail-summary__location::text').get()
         house_item['price']= house.css('span.listing-detail-summary__price-main::text').get() # Remove Euros sign and comma
@@ -62,7 +61,7 @@ class HousespiderSpider(scrapy.Spider):
         house_item['rental_agreement']= transfer.css('dd.listing-features__description--contract_duration span.listing-features__main-description::text').get()
         house_item['duration']=  transfer.css('dd.listing-features__description--contract_duration_min_max span.listing-features__main-description::text').get()
         house_item['agent_name']= agent.css('a.agent-summary__title-link::text').get()
-        house_item['agent_url']= agent_page
+        house_item['agent_url']= 'https://www.pararius.com' + agent.css('a.agent-summary__title-link::attr(href)').get()
         house_item['house_url']= response.css("link[rel='alternate'][hreflang='en']::attr(href)").get()
         house_item['description']= response.css('div.listing-detail-description__additional *::text').getall()
         yield house_item
