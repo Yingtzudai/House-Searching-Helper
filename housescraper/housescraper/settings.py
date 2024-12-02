@@ -11,6 +11,9 @@ BOT_NAME = "housescraper"
 
 SPIDER_MODULES = ["housescraper.spiders"]
 NEWSPIDER_MODULE = "housescraper.spiders"
+FEEDS = {
+    'housedata.csv':{'format':'csv', 'overwrite':True}
+}
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
@@ -64,6 +67,7 @@ ROBOTSTXT_OBEY = True
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    "housescraper.pipelines.HousescraperPipeline": 300,
+   "housescraper.pipelines.SaveToMySQLPipeline":400,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

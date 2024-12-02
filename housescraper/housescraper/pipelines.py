@@ -53,11 +53,11 @@ class HousescraperPipeline:
         if available_str is not None:
             if 'From' in available_str:
                 str_date = available_str.split(' ')[1]
-                date = datetime.strptime(str_date,'%d-%m-%Y')
-                adapter['available'] = date
+                # date = datetime.strptime(str_date,'%d-%m-%Y')
+                adapter['available'] = str_date
             if available_str == 'Immediately':
                 today = datetime.today().strftime('%d-%m-%Y')
-                today = datetime.strptime(today,'%d-%m-%Y')
+                # today = datetime.strptime(today,'%d-%m-%Y')
                 adapter['available'] = today
     
 
@@ -65,24 +65,153 @@ class HousescraperPipeline:
         offer_str = adapter.get('offered_since')
         if offer_str is not None:
             if 'weeks' not in offer_str and 'months' not in offer_str:
-                past_date = datetime.strptime(offer_str, '%d-%m-%Y')
+                # past_date = datetime.strptime(offer_str, '%d-%m-%Y')
+                past_date = offer_str
             elif 'weeks' in offer_str:
                 week_num = int(offer_str.split(' ')[0])
                 today = datetime.now()
                 past_date = today - timedelta(weeks = week_num)
                 past_date = past_date.strftime('%d-%m-%Y')
-                past_date = datetime.strptime(past_date,'%d-%m-%Y')
+                # past_date = datetime.strptime(past_date,'%d-%m-%Y')
             elif 'months' in offer_str:
                 month_num = int(list(offer_str)[0])
                 today = datetime.now()
                 past_date = today - timedelta(months = month_num)
                 past_date = past_date.strftime('%d-%m-%Y')
-                past_date = datetime.strptime(past_date,'%d-%m-%Y')
+                # past_date = datetime.strptime(past_date,'%d-%m-%Y')
             adapter['offered_since'] = past_date
-            
-                
-            
-            
-
+        
+        ## Transform description to string
+        description_list = adapter.get('description')
+        description_str = ' '.join(description_list).strip()
+        adapter['description'] = description_str
 
         return item
+
+import mysql.connector
+
+class SaveToMySQLPipeline:
+    def __init__(self):
+        self.conn = mysql.connector.connect(
+            host = 'localhost',
+            user = 'root',
+            password = '1234',
+            database = 'house'
+        )
+
+        ## Create cursor, used to execute commands
+        self.cur = self.conn.cursor()
+
+        ## Create house table if none exists
+        self.cur.execute("""
+                         CREATE TABLE IF NOT EXISTS house(
+                         address VARCHAR(255),
+                         agent_name text,
+                         agent_url VARCHAR(255),
+                         area text,
+                         available VARCHAR(255),
+                         balcony text,
+                         construction_type text,
+                         deposit DECIMAL,
+                         description text,
+                         duration VARCHAR(255),
+                         dwelling_type text,
+                         energy_rating VARCHAR(255),
+                         garden text,
+                         house_name text,
+                         house_url VARCHAR(255),
+                         interior text,
+                         number_of_bathrooms INTEGER,
+                         number_of_bedrooms INTEGER,
+                         number_of_rooms INTEGER,
+                         offered_since VARCHAR(255),
+                         pets_allowed text,
+                         price DECIMAL,
+                         property_type text,
+                         rental_agreement text,
+                         service_cost text,
+                         smoking_allowed text,
+                         status text,
+                         year_of_construction INTEGER,
+                         PRIMARY KEY (house_url)
+                         )
+                         """)
+
+    def process_item(self, item, spider):
+
+        ## Define insert statement
+        self.cur.execute("""
+    INSERT INTO house(
+        address,
+        agent_name,
+        agent_url,
+        area,
+        available,
+        balcony,
+        construction_type,
+        deposit,
+        description,
+        duration,
+        dwelling_type,
+        energy_rating,
+        garden,
+        house_name,
+        house_url,
+        interior,
+        number_of_bathrooms,
+        number_of_bedrooms,
+        number_of_rooms,
+        offered_since,
+        pets_allowed,
+        price,
+        property_type,
+        rental_agreement,
+        service_cost,
+        smoking_allowed,
+        status,
+        year_of_construction
+    ) VALUES (
+        %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
+        %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
+    )
+""", (
+    item['address'],
+    item['agent_name'],
+    item['agent_url'],
+    item['area'],
+    item['available'],
+    item['balcony'],
+    item['construction_type'],
+    item['deposit'],
+    item['description'],
+    item['duration'],
+    item['dwelling_type'],
+    item['energy_rating'],
+    item['garden'],
+    item['house_name'],
+    item['house_url'],
+    item['interior'],
+    item['number_of_bathrooms'],
+    item['number_of_bedrooms'],
+    item['number_of_rooms'],
+    item['offered_since'],
+    item['pets_allowed'],
+    item['price'],
+    item['property_type'],
+    item['rental_agreement'],
+    item['service_cost'],
+    item['smoking_allowed'],
+    item['status'],
+    item['year_of_construction']
+))
+
+      
+        # Execute insert of data into database
+        self.conn.commit()
+        return item
+
+    def close_spider(self, spider):
+
+        ## Close cursor & connection to database
+        self.cur.close()
+        self.conn.close()
