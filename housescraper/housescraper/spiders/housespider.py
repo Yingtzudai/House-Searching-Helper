@@ -1,15 +1,12 @@
 import scrapy
 from housescraper.items import HousescraperItem
+import random
 
 class HousespiderSpider(scrapy.Spider):
     name = "housespider"
     allowed_domains = ["pararius.com"]
     start_urls = ["https://www.pararius.com/apartments/nederland/"]
 
-    # Disable robots.txt for this spider
-    custom_settings = {
-        'ROBOTSTXT_OBEY': False,
-    }
 
     def parse(self, response):
         houses = response.css('section.listing-search-item')
@@ -17,6 +14,7 @@ class HousespiderSpider(scrapy.Spider):
             relative_url = house.css('a.listing-search-item__link--title::attr(href)').get()
             house_url = 'https://www.pararius.com' + relative_url
             yield scrapy.Request(house_url, callback=self.parse_house_page)
+
         
         # Next Page
         next_page = response.css('li.pagination__item.pagination__item--next a::attr(href)').get()
@@ -34,7 +32,6 @@ class HousespiderSpider(scrapy.Spider):
         energy = response.css('section.page__details--energy')
         condition = response.css('section.page__details--contract_conditions')
         agent = response.css('section.agent-summary')
-        # agent_page = 'https://www.pararius.com' + 'a.agent-summary__title-link::attr(href)'
         house_item['house_name']= house.css('h1.listing-detail-summary__title::text').get()
         house_item['address']= house.css('div.listing-detail-summary__location::text').get()
         house_item['price']= house.css('span.listing-detail-summary__price-main::text').get() # Remove Euros sign and comma

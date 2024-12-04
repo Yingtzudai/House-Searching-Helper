@@ -16,11 +16,18 @@ FEEDS = {
 }
 
 
+SCRAPEOPS_API_KEY = 'e57b72a6-3479-43a0-a034-622dd7325a42' # signup at https://scrapeops.io
+SCRAPEOPS_FAKE_USER_AGENT_ENDPOINT = 'https://headers.scrapeops.io/v1/user-agents'
+SCRAPEOPS_FAKE_USER_AGENT_ENABLED = True
+SCRAPEOPS_NUM_RESULTS = 5
+
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "housescraper (+http://www.yourdomain.com)"
 
+
+
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -47,9 +54,10 @@ ROBOTSTXT_OBEY = True
 
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-#SPIDER_MIDDLEWARES = {
+SPIDER_MIDDLEWARES = {
 #    "housescraper.middlewares.HousescraperSpiderMiddleware": 543,
-#}
+     'housescraper.middlewares.ScrapeOpsFakeBrowserHeaderAgentMiddleware': 400,
+}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
@@ -67,7 +75,7 @@ ROBOTSTXT_OBEY = True
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    "housescraper.pipelines.HousescraperPipeline": 300,
-   "housescraper.pipelines.SaveToMySQLPipeline":400,
+#    "housescraper.pipelines.SaveToMySQLPipeline":400,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
