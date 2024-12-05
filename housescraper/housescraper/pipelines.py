@@ -35,6 +35,13 @@ class HousescraperPipeline:
                 except ValueError:
                     # If conversion fails, set the value to None
                     adapter[price_key] = None
+        
+        ## Change to float (Living area)
+        area_str = adapter.get('living_area_m2')
+        if area_str is not None:
+            area = area_str.split(' ')[0]
+            area = float(area)
+            adapter['living_area_m2'] = area
 
 
         ## Change from float to integer (year of construction, number of bedrooms, number of bathrooms)
@@ -59,6 +66,9 @@ class HousescraperPipeline:
                 today = datetime.today().strftime('%d-%m-%Y')
                 # today = datetime.strptime(today,'%d-%m-%Y')
                 adapter['available'] = today
+            if available_str == 'In consultation':
+                adapter['available'] = None
+            
     
 
         ## Change to date (offered since)
@@ -108,7 +118,6 @@ class SaveToMySQLPipeline:
                          address VARCHAR(255),
                          agent_name text,
                          agent_url VARCHAR(255),
-                         area text,
                          available VARCHAR(255),
                          balcony text,
                          construction_type text,
@@ -121,6 +130,7 @@ class SaveToMySQLPipeline:
                          house_name text,
                          house_url VARCHAR(255),
                          interior text,
+                         living_area_m2 DECIMAL,
                          number_of_bathrooms INTEGER,
                          number_of_bedrooms INTEGER,
                          number_of_rooms INTEGER,
@@ -145,7 +155,6 @@ class SaveToMySQLPipeline:
         address,
         agent_name,
         agent_url,
-        area,
         available,
         balcony,
         construction_type,
@@ -158,6 +167,7 @@ class SaveToMySQLPipeline:
         house_name,
         house_url,
         interior,
+        living_area_m2,
         number_of_bathrooms,
         number_of_bedrooms,
         number_of_rooms,
@@ -178,7 +188,6 @@ class SaveToMySQLPipeline:
     item['address'],
     item['agent_name'],
     item['agent_url'],
-    item['area'],
     item['available'],
     item['balcony'],
     item['construction_type'],
@@ -191,6 +200,7 @@ class SaveToMySQLPipeline:
     item['house_name'],
     item['house_url'],
     item['interior'],
+    item['living_area_m2'],
     item['number_of_bathrooms'],
     item['number_of_bedrooms'],
     item['number_of_rooms'],

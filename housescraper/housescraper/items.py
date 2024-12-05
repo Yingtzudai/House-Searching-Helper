@@ -17,7 +17,7 @@ class HousescraperItem(scrapy.Item):
     price = scrapy.Field()
     deposit = scrapy.Field()
     service_cost = scrapy.Field()
-    area = scrapy.Field()
+    living_area_m2 = scrapy.Field()
     number_of_rooms = scrapy.Field()
     interior = scrapy.Field()
     dwelling_type = scrapy.Field()

@@ -37,7 +37,7 @@ class HousespiderSpider(scrapy.Spider):
         house_item['price']= house.css('span.listing-detail-summary__price-main::text').get() # Remove Euros sign and comma
         house_item['deposit']= transfer.css('dd.listing-features__description--deposit span.listing-features__main-description::text').get() # Remove Euros sign and comma
         house_item['service_cost']= transfer.css('ul.listing-features__sub-description li::text').get()
-        house_item['area']= house.css('li.illustrated-features__item--surface-area::text').get()
+        house_item['living_area_m2']= house.css('li.illustrated-features__item--surface-area::text').get()
         house_item['number_of_rooms']= house.css('li.illustrated-features__item--number-of-rooms::text').get() # Strip if not None
         house_item['interior']= house.css('li.illustrated-features__item--interior::text').get() # strip if not None
         house_item['dwelling_type']= construction.css('dd.listing-features__description--dwelling_type span.listing-features__main-description::text').get()
@@ -62,5 +62,3 @@ class HousespiderSpider(scrapy.Spider):
         house_item['house_url']= response.css("link[rel='alternate'][hreflang='en']::attr(href)").get()
         house_item['description']= response.css('div.listing-detail-description__additional *::text').getall()
         yield house_item
-
-
