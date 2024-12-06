@@ -59,7 +59,8 @@ class HousespiderSpider(scrapy.Spider):
         house_item['status']= transfer.css('dd.listing-features__description--status span.listing-features__main-description::text').get()
         house_item['available']= transfer.css('dd.listing-features__description--acceptance span.listing-features__main-description::text').get() # change to date
         house_item['rental_agreement']= transfer.css('dd.listing-features__description--contract_duration span.listing-features__main-description::text').get()
-        house_item['duration']=  transfer.css('dd.listing-features__description--contract_duration_min_max span.listing-features__main-description::text').get()
+        house_item['minimum_months']=  transfer.css('dd.listing-features__description--contract_duration_min_max span.listing-features__main-description::text').get()
+        house_item['maximum_months']=  transfer.css('dd.listing-features__description--contract_duration_min_max span.listing-features__main-description::text').get()
         house_item['agent_name']= agent.css('a.agent-summary__title-link::text').get()
         house_item['agent_url']= 'https://www.pararius.com' + agent.css('a.agent-summary__title-link::attr(href)').get()
         house_item['house_url']= response.css("link[rel='alternate'][hreflang='en']::attr(href)").get()

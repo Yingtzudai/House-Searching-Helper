@@ -85,8 +85,28 @@ class HousescraperPipeline:
                 adapter['available'] = today
             if available_str == 'In consultation':
                 adapter['available'] = None
-            
-    
+        
+        ## Extract minimum_months and maximum_months
+        duration = adapter.get('minimum_months')
+        if duration is not None:
+            duration = duration.lower()
+            if 'minimum' in duration and 'maximum' in duration:
+                duration = duration.split(',')
+                minimum = int(duration[0].split(' ')[2])
+                maximum = int(duration[1].split(' ')[2])
+                adapter['minimum_months'] = minimum
+                adapter['maximum_months'] = maximum
+            elif 'minimum' in duration:
+                duration = duration.split(' ')
+                minimum = int(duration[2])
+                adapter['minimum_months'] = minimum
+                adapter['maximum_months'] = None
+            elif 'maximum' in duration:
+                duration = duration.split(' ')
+                maximum = int(duration[2])
+                adapter['maximum_months'] = maximum
+                adapter['minimum_months'] = None
+
 
         ## Change to date (offered since)
         offer_str = adapter.get('offered_since')
@@ -142,7 +162,6 @@ class SaveToMySQLPipeline:
                          deposit DECIMAL,
                          description text,
                          district text,
-                         duration VARCHAR(255),
                          dwelling_type text,
                          energy_rating VARCHAR(255),
                          garden text,
@@ -150,6 +169,8 @@ class SaveToMySQLPipeline:
                          house_url VARCHAR(255),
                          interior text,
                          living_area_m2 DECIMAL,
+                         minimum_months INTEGER,
+                         maximum_months INTEGER,
                          number_of_bathrooms INTEGER,
                          number_of_bedrooms INTEGER,
                          number_of_rooms INTEGER,
@@ -182,7 +203,6 @@ class SaveToMySQLPipeline:
         deposit,
         description,
         district,
-        duration,
         dwelling_type,
         energy_rating,
         garden,
@@ -190,6 +210,8 @@ class SaveToMySQLPipeline:
         house_url,
         interior,
         living_area_m2,
+        minimum_months,
+        maximum_months,
         number_of_bathrooms,
         number_of_bedrooms,
         number_of_rooms,
@@ -204,7 +226,7 @@ class SaveToMySQLPipeline:
         year_of_construction
     ) VALUES (
         %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
-        %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s
+        %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s,%s
     )
 """, (
     item['address'],
@@ -217,7 +239,6 @@ class SaveToMySQLPipeline:
     item['deposit'],
     item['description'],
     item['district'],
-    item['duration'],
     item['dwelling_type'],
     item['energy_rating'],
     item['garden'],
@@ -225,6 +246,8 @@ class SaveToMySQLPipeline:
     item['house_url'],
     item['interior'],
     item['living_area_m2'],
+    item['minimum_months'],
+    item['maximum_months'],
     item['number_of_bathrooms'],
     item['number_of_bedrooms'],
     item['number_of_rooms'],
