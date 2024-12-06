@@ -147,6 +147,7 @@ class SaveToMySQLPipeline:
                          )
                          """)
 
+
     def process_item(self, item, spider):
 
         ## Define insert statement
