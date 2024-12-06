@@ -13,7 +13,9 @@ class HousescraperItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
     house_name = scrapy.Field()
+    city = scrapy.Field()
     address = scrapy.Field()
+    district = scrapy.Field()
     price = scrapy.Field()
     deposit = scrapy.Field()
     service_cost = scrapy.Field()

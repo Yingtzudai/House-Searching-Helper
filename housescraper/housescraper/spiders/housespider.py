@@ -32,8 +32,11 @@ class HousespiderSpider(scrapy.Spider):
         energy = response.css('section.page__details--energy')
         condition = response.css('section.page__details--contract_conditions')
         agent = response.css('section.agent-summary')
+
         house_item['house_name']= house.css('h1.listing-detail-summary__title::text').get()
+        house_item['city']= house.css('h1.listing-detail-summary__title::text').get()
         house_item['address']= house.css('div.listing-detail-summary__location::text').get()
+        house_item['district']= house.css('div.listing-detail-summary__location::text').get()
         house_item['price']= house.css('span.listing-detail-summary__price-main::text').get() # Remove Euros sign and comma
         house_item['deposit']= transfer.css('dd.listing-features__description--deposit span.listing-features__main-description::text').get() # Remove Euros sign and comma
         house_item['service_cost']= transfer.css('ul.listing-features__sub-description li::text').get()

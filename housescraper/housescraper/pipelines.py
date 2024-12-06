@@ -36,6 +36,23 @@ class HousescraperPipeline:
                     # If conversion fails, set the value to None
                     adapter[price_key] = None
         
+        ## Extract city from house_name and remove city from house_name
+        full_name = adapter.get('house_name')
+        if full_name is not None:
+            full_name_lis = full_name.split(' in ')
+            name = full_name_lis[0]
+            city = full_name_lis[1]
+            adapter['house_name'] = name
+            adapter['city'] = city
+        
+        ## Extract district from address
+        full_address = adapter.get('district')
+        district = full_address.split('(')[1]
+        district = district.replace(')','')
+        adapter['district'] = district
+
+
+        
         ## Change to float (Living area)
         area_str = adapter.get('living_area_m2')
         if area_str is not None:
@@ -120,9 +137,11 @@ class SaveToMySQLPipeline:
                          agent_url VARCHAR(255),
                          available VARCHAR(255),
                          balcony text,
+                         city text,
                          construction_type text,
                          deposit DECIMAL,
                          description text,
+                         district text,
                          duration VARCHAR(255),
                          dwelling_type text,
                          energy_rating VARCHAR(255),
@@ -158,9 +177,11 @@ class SaveToMySQLPipeline:
         agent_url,
         available,
         balcony,
+        city,
         construction_type,
         deposit,
         description,
+        district,
         duration,
         dwelling_type,
         energy_rating,
@@ -183,7 +204,7 @@ class SaveToMySQLPipeline:
         year_of_construction
     ) VALUES (
         %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
-        %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
+        %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s
     )
 """, (
     item['address'],
@@ -191,9 +212,11 @@ class SaveToMySQLPipeline:
     item['agent_url'],
     item['available'],
     item['balcony'],
+    item['city'],
     item['construction_type'],
     item['deposit'],
     item['description'],
+    item['district'],
     item['duration'],
     item['dwelling_type'],
     item['energy_rating'],
