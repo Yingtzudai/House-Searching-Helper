@@ -68,6 +68,7 @@ FROM house;
 -- Create rental_info table
 CREATE TABLE IF NOT EXISTS rental_info (
                          house_url VARCHAR(255),
+                         house_name VARCHAR(255),
                          available DATE,
                          minimum_months INTEGER,
                          maximum_months INTEGER,
@@ -76,11 +77,14 @@ CREATE TABLE IF NOT EXISTS rental_info (
                          deposit DECIMAL,
                          service_cost text,
                          status text,
-                         FOREIGN KEY (house_url) REFERENCES house_info(house_url)
+                         agent_url VARCHAR(255),
+                         region VARCHAR(255),
+                         FOREIGN KEY (agent_url) REFERENCES agent(agent_url),
+                         FOREIGN KEY (region) REFERENCES territory(region)
 );
 INSERT INTO rental_info
-SELECT house_url, STR_TO_DATE(available,'%d-%m-%Y') AS available, minimum_months, maximum_months, rental_agreement, price, deposit,
-service_cost, status
+SELECT house_url, house_name, STR_TO_DATE(available,'%d-%m-%Y') AS available, minimum_months, maximum_months, rental_agreement, price, deposit,
+service_cost, status, agent_url, CONCAT(district, ', ', city) AS region
 FROM house;
 
 
