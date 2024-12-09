@@ -34,11 +34,10 @@ ALTER TABLE territory ADD PRIMARY KEY (region);
 SET SQL_SAFE_UPDATES = 1;
 
 
--- Create house_overview table
+-- Create house_info table
 CREATE TABLE IF NOT EXISTS house_info (
-                         house_name text,
                          house_url VARCHAR(255) PRIMARY KEY,
-                         region VARCHAR(255),
+                         house_name text,
                          dwelling_type text,
                          construction_type text,
                          year_of_construction INTEGER,
@@ -51,25 +50,20 @@ CREATE TABLE IF NOT EXISTS house_info (
                          interior text,
                          energy_rating VARCHAR(255),
                          pets_allowed text,
-                         smoking_allowed text,
-                         offered_since DATE,
-                         agent_url VARCHAR(255),
-                         FOREIGN KEY (agent_url) REFERENCES agent(agent_url),
-                         FOREIGN KEY (region) REFERENCES territory(region)
-                         
+                         smoking_allowed text
 );
 
 INSERT INTO house_info
-SELECT house_name, house_url, region, dwelling_type, construction_type, year_of_construction, balcony, garden,
+SELECT house_url, house_name, dwelling_type, construction_type, year_of_construction, balcony, garden,
 number_of_bathrooms, number_of_bedrooms, number_of_rooms, living_area_m2, interior, energy_rating, pets_allowed, 
-smoking_allowed, STR_TO_DATE(offered_since,'%d-%m-%Y') AS offered_since, agent_url
+smoking_allowed
 FROM house;
 
 -- Create rental_info table
 CREATE TABLE IF NOT EXISTS rental_info (
                          house_url VARCHAR(255),
-                         house_name VARCHAR(255),
                          available DATE,
+                         offered_since DATE,
                          minimum_months INTEGER,
                          maximum_months INTEGER,
                          rental_agreement text,
@@ -80,10 +74,11 @@ CREATE TABLE IF NOT EXISTS rental_info (
                          agent_url VARCHAR(255),
                          region VARCHAR(255),
                          FOREIGN KEY (agent_url) REFERENCES agent(agent_url),
-                         FOREIGN KEY (region) REFERENCES territory(region)
+                         FOREIGN KEY (region) REFERENCES territory(region),
+                         FOREIGN KEY (house_url) REFERENCES house_info(house_url)
 );
 INSERT INTO rental_info
-SELECT house_url, house_name, STR_TO_DATE(available,'%d-%m-%Y') AS available, minimum_months, maximum_months, rental_agreement, price, deposit,
+SELECT house_url, STR_TO_DATE(offered_since,'%d-%m-%Y') AS offered_since, STR_TO_DATE(available,'%d-%m-%Y') AS available, minimum_months, maximum_months, rental_agreement, price, deposit,
 service_cost, status, agent_url, CONCAT(district, ', ', city) AS region
 FROM house;
 
