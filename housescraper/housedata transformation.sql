@@ -83,6 +83,14 @@ INSERT IGNORE INTO rental_info
 SELECT house_url, STR_TO_DATE(offered_since,'%d-%m-%Y') AS offered_since, STR_TO_DATE(available,'%d-%m-%Y') AS available, price,
 service_cost, status, agent_url, CONCAT(district, ', ', city) AS region
 FROM house;
+
+ALTER TABLE house_info ADD COLUMN energy_rating_category VARCHAR(255);
+UPDATE house_info
+SET energy_rating_category = CASE
+    WHEN energy_rating LIKE '%A%' THEN 'A'
+    ELSE energy_rating
+END;
+
 -- Transform rental_info
 UPDATE rental_info
 SET service_cost = CASE 
@@ -96,9 +104,3 @@ UPDATE rental_info
 SET offered_since = available
 WHERE offered_since IS NULL;
 SET SQL_SAFE_UPDATES = 1;
-
-
-
-
-
-
