@@ -189,82 +189,87 @@ class SaveToMySQLPipeline:
 
 
     def process_item(self, item, spider):
+        try:
 
-        ## Define insert statement
-        self.cur.execute("""
-    INSERT INTO house(
-        address,
-        agent_name,
-        agent_url,
-        available,
-        balcony,
-        city,
-        construction_type,
-        deposit,
-        description,
-        district,
-        dwelling_type,
-        energy_rating,
-        garden,
-        house_name,
-        house_url,
-        interior,
-        living_area_m2,
-        minimum_months,
-        maximum_months,
-        number_of_bathrooms,
-        number_of_bedrooms,
-        number_of_rooms,
-        offered_since,
-        pets_allowed,
-        price,
-        property_type,
-        rental_agreement,
-        service_cost,
-        smoking_allowed,
-        status,
-        year_of_construction
-    ) VALUES (
-        %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
-        %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s,%s
-    )
-""", (
-    item['address'],
-    item['agent_name'],
-    item['agent_url'],
-    item['available'],
-    item['balcony'],
-    item['city'],
-    item['construction_type'],
-    item['deposit'],
-    item['description'],
-    item['district'],
-    item['dwelling_type'],
-    item['energy_rating'],
-    item['garden'],
-    item['house_name'],
-    item['house_url'],
-    item['interior'],
-    item['living_area_m2'],
-    item['minimum_months'],
-    item['maximum_months'],
-    item['number_of_bathrooms'],
-    item['number_of_bedrooms'],
-    item['number_of_rooms'],
-    item['offered_since'],
-    item['pets_allowed'],
-    item['price'],
-    item['property_type'],
-    item['rental_agreement'],
-    item['service_cost'],
-    item['smoking_allowed'],
-    item['status'],
-    item['year_of_construction']
-))
+            ## Define insert statement
+            self.cur.execute("""
+        INSERT INTO house(
+            address,
+            agent_name,
+            agent_url,
+            available,
+            balcony,
+            city,
+            construction_type,
+            deposit,
+            description,
+            district,
+            dwelling_type,
+            energy_rating,
+            garden,
+            house_name,
+            house_url,
+            interior,
+            living_area_m2,
+            minimum_months,
+            maximum_months,
+            number_of_bathrooms,
+            number_of_bedrooms,
+            number_of_rooms,
+            offered_since,
+            pets_allowed,
+            price,
+            property_type,
+            rental_agreement,
+            service_cost,
+            smoking_allowed,
+            status,
+            year_of_construction
+        ) VALUES (
+            %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
+            %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s,%s
+        )
+    """, (
+        item['address'],
+        item['agent_name'],
+        item['agent_url'],
+        item['available'],
+        item['balcony'],
+        item['city'],
+        item['construction_type'],
+        item['deposit'],
+        item['description'],
+        item['district'],
+        item['dwelling_type'],
+        item['energy_rating'],
+        item['garden'],
+        item['house_name'],
+        item['house_url'],
+        item['interior'],
+        item['living_area_m2'],
+        item['minimum_months'],
+        item['maximum_months'],
+        item['number_of_bathrooms'],
+        item['number_of_bedrooms'],
+        item['number_of_rooms'],
+        item['offered_since'],
+        item['pets_allowed'],
+        item['price'],
+        item['property_type'],
+        item['rental_agreement'],
+        item['service_cost'],
+        item['smoking_allowed'],
+        item['status'],
+        item['year_of_construction']
+    ))
 
-      
-        # Execute insert of data into database
-        self.conn.commit()
+        
+            # Execute insert of data into database
+            self.conn.commit()
+        
+        except mysql.connector.Error as e:
+            spider.logger.error(f"Error inserting item:{e}")
+            
         return item
 
     def close_spider(self, spider):

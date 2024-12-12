@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS house_info (
                          dwelling_type text,
                          -- construction_type text, (Definition unclear, seriously imbalanced)
                          year_of_construction INTEGER,
+                         house_age INTEGER,
                          balcony text,
                          garden text,
                          number_of_bathrooms INTEGER,
@@ -38,16 +39,26 @@ CREATE TABLE IF NOT EXISTS house_info (
                          living_area_m2 DECIMAL,
                          interior text,
                          energy_rating VARCHAR(255),
+                         energy_rating_category VARCHAR(255),
                          pets_allowed text,
                          smoking_allowed text
 );
 
 INSERT IGNORE INTO house_info
 SELECT house_url, house_name, dwelling_type, year_of_construction, balcony, garden,
-number_of_bathrooms, number_of_bedrooms, number_of_rooms, living_area_m2, interior, energy_rating, pets_allowed, 
-smoking_allowed
+number_of_bathrooms, number_of_bedrooms, number_of_rooms, living_area_m2, interior, energy_rating, energy_rating AS energy_rating_category, pets_allowed, 
+smoking_allowed, year_of_construction AS house_age
 FROM house;
 -- Transformation for house_info
+UPDATE house_info
+SET house_age = YEAR(CURDATE()) - year_of_construction;
+
+UPDATE house_info
+SET energy_rating_category = CASE
+    WHEN energy_rating LIKE '%A%' THEN 'A'
+    ELSE energy_rating
+END;
+
 UPDATE house_info
 SET
     balcony = COALESCE(balcony, 'Not present'), 
@@ -83,13 +94,6 @@ INSERT IGNORE INTO rental_info
 SELECT house_url, STR_TO_DATE(offered_since,'%d-%m-%Y') AS offered_since, STR_TO_DATE(available,'%d-%m-%Y') AS available, price,
 service_cost, status, agent_url, CONCAT(district, ', ', city) AS region
 FROM house;
-
-ALTER TABLE house_info ADD COLUMN energy_rating_category VARCHAR(255);
-UPDATE house_info
-SET energy_rating_category = CASE
-    WHEN energy_rating LIKE '%A%' THEN 'A'
-    ELSE energy_rating
-END;
 
 -- Transform rental_info
 UPDATE rental_info
