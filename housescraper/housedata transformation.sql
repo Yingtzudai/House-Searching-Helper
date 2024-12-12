@@ -73,13 +73,14 @@ WHERE dwelling_type = 'room';
 
 -- Create rental_info table
 CREATE TABLE IF NOT EXISTS rental_info (
-                         house_url VARCHAR(255) NOT NULL UNIQUE PRIMARY KEY,
+                         house_url VARCHAR(255) NOT NULL UNIQUE,
                          available DATE,
                          offered_since DATE,
                          -- minimum_months INTEGER, (82% NULL)
                          -- maximum_months INTEGER, (90% NULL)
                          -- rental_agreement text, (51% NULL)
                          price DECIMAL,
+                         squared_meter_price DECIMAL, 
                          -- deposit DECIMAL, (37% NULL)
                          service_cost text,
                          status text,
@@ -91,11 +92,14 @@ CREATE TABLE IF NOT EXISTS rental_info (
                          
 );
 INSERT IGNORE INTO rental_info
-SELECT house_url, STR_TO_DATE(offered_since,'%d-%m-%Y') AS offered_since, STR_TO_DATE(available,'%d-%m-%Y') AS available, price,
+SELECT house_url, STR_TO_DATE(offered_since,'%d-%m-%Y') AS offered_since, STR_TO_DATE(available,'%d-%m-%Y') AS available, price, living_area_m2 AS squared_meter_price,
 service_cost, status, agent_url, CONCAT(district, ', ', city) AS region
 FROM house;
 
 -- Transform rental_info
+UPDATE rental_info
+SET squared_meter_price = price/squared_meter_price;
+
 UPDATE rental_info
 SET service_cost = CASE 
     WHEN service_cost LIKE '%Electricity%' AND service_cost LIKE '%Gas%' 
@@ -108,3 +112,6 @@ UPDATE rental_info
 SET offered_since = available
 WHERE offered_since IS NULL;
 SET SQL_SAFE_UPDATES = 1;
+
+SELECT COUNT(house_url) FROM rental_info WHERE price IS NULL;
+
