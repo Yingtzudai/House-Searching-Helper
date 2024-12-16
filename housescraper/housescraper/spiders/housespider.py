@@ -52,7 +52,7 @@ class HousespiderSpider(scrapy.Spider):
         house_item['number_of_bedrooms']= layout.css('dd.listing-features__description--number_of_bedrooms span.listing-features__main-description::text').get() # Change to integer
         house_item['number_of_bathrooms']= layout.css('dd.listing-features__description--number_of_bathrooms span.listing-features__main-description::text').get() # Change to integer
         house_item['balcony']= outdoor.css('dd.listing-features__description--balcony span.listing-features__main-description::text').get()
-        house_item['garden']= outdoor.css('dd.listing-features__description--garden span.listing-features__main-description::text').get()
+        # house_item['garden']= outdoor.css('dd.listing-features__description--garden span.listing-features__main-description::text').get()
         house_item['energy_rating']= energy.css('dt:contains("Energy rating") + dd span.listing-features__main-description::text').get()
         house_item['smoking_allowed']= condition.css('dd.listing-features__description--smoking_allowed span.listing-features__main-description::text').get()
         house_item['pets_allowed']= condition.css('dd.listing-features__description--pets_allowed span.listing-features__main-description::text').get()

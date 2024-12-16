@@ -29,7 +29,7 @@ class HousescraperItem(scrapy.Item):
     number_of_bedrooms = scrapy.Field()
     number_of_bathrooms = scrapy.Field()
     balcony = scrapy.Field()
-    garden = scrapy.Field()
+    # garden = scrapy.Field()
     energy_rating = scrapy.Field()
     smoking_allowed = scrapy.Field()
     pets_allowed = scrapy.Field()

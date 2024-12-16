@@ -37,7 +37,6 @@ CREATE TABLE IF NOT EXISTS house_info (
                          year_of_construction INTEGER,
                          house_age INTEGER,
                          balcony text,
-                         garden text,
                          number_of_bathrooms INTEGER,
                          number_of_bedrooms INTEGER,
                          number_of_rooms INTEGER,
@@ -54,7 +53,7 @@ CREATE TABLE IF NOT EXISTS house_info (
 );
 
 INSERT IGNORE INTO house_info
-SELECT house_url, house_name, dwelling_type, year_of_construction, balcony, garden,
+SELECT house_url, house_name, dwelling_type, year_of_construction, balcony,
 number_of_bathrooms, number_of_bedrooms, number_of_rooms, living_area_m2, interior, energy_rating, energy_rating AS energy_rating_category, pets_allowed, 
 smoking_allowed, year_of_construction AS house_age, agent_url, CONCAT(district, ', ', city) AS region
 FROM house;
@@ -71,14 +70,26 @@ END;
 UPDATE house_info
 SET
     balcony = COALESCE(balcony, 'Not present'), 
-    garden = COALESCE(garden, 'Not present'),
     smoking_allowed = COALESCE(smoking_allowed, 'No'),
     pets_allowed = COALESCE(pets_allowed, 'No');
+
+UPDATE house_info
+SET balcony = CASE
+    WHEN balcony LIKE'Not present' THEN 'Not present'
+    ELSE 'Present'
+END;
 UPDATE house_info
 SET 
     number_of_bedrooms = COALESCE(number_of_bedrooms, 0),
     number_of_bathrooms = COALESCE(number_of_bathrooms, 0)
 WHERE dwelling_type = 'room';
+
+UPDATE house_info
+SET interior = (SELECT h.interior
+                FROM house h
+                WHERE h.house_url = house_info.house_url)
+WHERE house_info.interior = house_info.energy_rating;
+
 
 -- Create rental_info table
 CREATE TABLE IF NOT EXISTS rental_info (
@@ -119,5 +130,3 @@ WHERE offered_since IS NULL;
 SET SQL_SAFE_UPDATES = 1;
 
 
-SELECT DISTINCT(energy_rating_category)
-FROM house_info;
