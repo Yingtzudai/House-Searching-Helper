@@ -53,9 +53,9 @@ CREATE TABLE IF NOT EXISTS house_info (
 );
 
 INSERT IGNORE INTO house_info
-SELECT house_url, house_name, dwelling_type, year_of_construction, balcony,
+SELECT house_url, house_name, dwelling_type, year_of_construction, year_of_construction AS house_age, balcony,
 number_of_bathrooms, number_of_bedrooms, number_of_rooms, living_area_m2, interior, energy_rating, energy_rating AS energy_rating_category, pets_allowed, 
-smoking_allowed, year_of_construction AS house_age, agent_url, CONCAT(district, ', ', city) AS region
+smoking_allowed, agent_url, CONCAT(district, ', ', city) AS region
 FROM house;
 -- Transformation for house_info
 UPDATE house_info
@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS rental_info (
                          
 );
 INSERT IGNORE INTO rental_info
-SELECT house_url, STR_TO_DATE(offered_since,'%d-%m-%Y') AS offered_since, STR_TO_DATE(available,'%d-%m-%Y') AS available, price, living_area_m2 AS squared_meter_price,
+SELECT house_url, STR_TO_DATE(available,'%d-%m-%Y') AS available, STR_TO_DATE(offered_since,'%d-%m-%Y') AS offered_since, price, living_area_m2 AS squared_meter_price,
 service_cost, status
 FROM house;
 
@@ -129,4 +129,4 @@ SET offered_since = available
 WHERE offered_since IS NULL;
 SET SQL_SAFE_UPDATES = 1;
 
-
+SELECT available, offered_since FROM rental_info;
