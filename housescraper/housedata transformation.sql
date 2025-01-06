@@ -129,4 +129,3 @@ SET offered_since = available
 WHERE offered_since IS NULL;
 SET SQL_SAFE_UPDATES = 1;
 
-SELECT available, offered_since FROM rental_info;
