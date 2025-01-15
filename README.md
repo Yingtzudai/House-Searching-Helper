@@ -29,13 +29,13 @@ To help users better understand rental prices and the factors influencing them, 
 To run the project, follow the steps to set up:
 
 1. Install the required libraries:
-'''bash
+```bash
 pip install -r requirements.txt
 2. For data cleaning and transformation:
-'''bash
+```bash
 python Scripts/Data_Cleaning_for_ML_Models.py
 3. For running the ML models:
-'''bash
+```bash
 python Scripts/ML_Models.py
 
 ### Best Performing Model: Gradient Boosting Regressor
