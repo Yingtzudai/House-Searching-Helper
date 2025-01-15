@@ -31,12 +31,15 @@ To run the project, follow the steps to set up:
 1. Install the required libraries:
 ```bash
 pip install -r requirements.txt
+```
 2. For data cleaning and transformation:
 ```bash
 python Scripts/Data_Cleaning_for_ML_Models.py
+```
 3. For running the ML models:
 ```bash
 python Scripts/ML_Models.py
+```
 
 ### Best Performing Model: Gradient Boosting Regressor
 The **Gradient Boosting Regressor** achieved:
