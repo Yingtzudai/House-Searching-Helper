@@ -1,7 +1,7 @@
 
 # House Searching Helper
 
-**House Searching Helper** is designed to give everyone looking for accommodation deeper insights into the housing market. This project used Scrapy to scrape data from a popular Dutch rental website to gather the latest information, which is stored in a regularly updated MySQL database. The project features two main applications: the **PowerBI Search Dashboard** and the **Price Prediction Machine Learning Models**.
+**House Searching Helper** is designed to give people looking for accommodation deeper insights into the housing market. This project used Scrapy to scrape data from a popular Dutch rental website to gather the latest information, which is stored in a regularly updated MySQL database. The project features two main applications: the **PowerBI Search Dashboard** and the **Price Prediction Machine Learning Models**.
 
 ---
 
@@ -47,10 +47,10 @@ These insights help potential tenants understand how factors like location, prop
 
 ## Why Use House Searching Helper?
 
-With its combination of advanced analytics and user-friendly tools, **House Searching Helper** is more than just a search engine. It’s your go-to tool for smarter decision-making in the rental market, whether you’re:
+With its combination of advanced analytics and user-friendly tools, **House Searching Helper** can help smarter decision-making in the rental market, whether you’re:
 
 - Looking to save money 💰
 - Optimizing your search process 🕒
 - Gaining a better understanding of housing prices 📊
 
-Let us make your house hunt easier and more informed! 🚀
+ **House Searching Helper** can make your house hunt easier and more informed! 🚀
