@@ -12,7 +12,8 @@ The **PowerBI Search Dashboard** makes finding your dream accommodation easier a
 - 🏢 **Discover Ownership Trends**: Find out which agents own the most properties in your chosen category.
 - 📍 **Explore Locations**: Identify the specific regions where these properties are located.
 - 💡 **Save Time and Money**: Use these insights to make smarter choices and streamline your house-hunting process.
-
+- 🎥 **Demo**
+[![Demo Video](https://img.youtube.com/vi/l6lKcrWwLfE/0.jpg)](https://www.youtube.com/watch?v=l6lKcrWwLfE)
 ---
 
 ## Price Prediction Machine Learning Models
@@ -25,22 +26,6 @@ To help users better understand rental prices and the factors influencing them, 
 - **Gradient Boosting Regressor**
 - **Stacking Model**
 
-### Setup and Run the Models
-To run the project, follow the steps to set up:
-
-1. Install the required libraries:
-```bash
-pip install -r requirements.txt
-```
-2. For data cleaning and transformation:
-```bash
-python Scripts/Data_Cleaning_for_ML_Models.py
-```
-3. For running the ML models:
-```bash
-python Scripts/ML_Models.py
-```
-
 ### Best Performing Model: Gradient Boosting Regressor
 The **Gradient Boosting Regressor** achieved:
 - **Mean Squared Error (MSE):** 0.0368
@@ -48,10 +33,12 @@ The **Gradient Boosting Regressor** achieved:
 
 This shows that the model has a strong predictive ability and can estimate rent with high accuracy.
 
-### Feature Importance Insights
-To uncover what drives rental prices, we used:
+### Model Insights
+To uncover what drives rental prices, I used:
 - **SHAP (SHapley Additive exPlanations)**: Explains how each feature influences predictions.
+![SHAP Plot of Gradient Boosting Regressor]("ipynb files/SHAP Plot of Gradient Boosting Regressor.png")
 - **Permutation Feature Importance**: Highlights the most impactful features.
+![Permutation Feature Importance of Gradient Boosting Regressor]("ipynb files/Permutation Feature Importance of Gradient Boosting Regressor.png")
 
 These insights help potential tenants understand how factors like location, property size, and amenities affect rent, enabling smarter decisions.
 
