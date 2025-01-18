@@ -36,9 +36,9 @@ This shows that the model has a strong predictive ability and can estimate rent 
 ### Model Insights
 To uncover what drives rental prices, I used:
 - **SHAP (SHapley Additive exPlanations)**: Explains how each feature influences predictions.
-![SHAP Plot of Gradient Boosting Regressor](ipynb files/SHAP Plot of Gradient Boosting Regressor.png)
+![SHAP Plot of Gradient Boosting Regressor](ipynb_files/SHAP_Plot_of_Gradient_Boosting_Regressor.png)
 - **Permutation Feature Importance**: Highlights the most impactful features.
-![Permutation Feature Importance of Gradient Boosting Regressor](ipynb files/Permutation Feature Importance of Gradient Boosting Regressor.png)
+![Permutation Feature Importance of Gradient Boosting Regressor](ipynb_files/Permutation_Feature_Importance_of_Gradient_Boosting_Regressor.png)
 
 These insights help potential tenants understand how factors like location, property size, and amenities affect rent, enabling smarter decisions.
 
