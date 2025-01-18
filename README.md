@@ -12,7 +12,8 @@ The **PowerBI Search Dashboard** makes finding your dream accommodation easier a
 - 🏢 **Discover Ownership Trends**: Find out which agents own the most properties in your chosen category.
 - 📍 **Explore Locations**: Identify the specific regions where these properties are located.
 - 💡 **Save Time and Money**: Use these insights to make smarter choices and streamline your house-hunting process.
-- 🎥 **Demo**:\n
+- 🎥 **Demo**:
+
 [![Demo Video](https://img.youtube.com/vi/l6lKcrWwLfE/0.jpg)](https://www.youtube.com/watch?v=l6lKcrWwLfE)
 ---
 
