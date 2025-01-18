@@ -12,7 +12,7 @@ The **PowerBI Search Dashboard** makes finding your dream accommodation easier a
 - 🏢 **Discover Ownership Trends**: Find out which agents own the most properties in your chosen category.
 - 📍 **Explore Locations**: Identify the specific regions where these properties are located.
 - 💡 **Save Time and Money**: Use these insights to make smarter choices and streamline your house-hunting process.
-- 🎥 **Demo**
+- 🎥 **Demo**:
 [![Demo Video](https://img.youtube.com/vi/l6lKcrWwLfE/0.jpg)](https://www.youtube.com/watch?v=l6lKcrWwLfE)
 ---
 
@@ -36,9 +36,9 @@ This shows that the model has a strong predictive ability and can estimate rent 
 ### Model Insights
 To uncover what drives rental prices, I used:
 - **SHAP (SHapley Additive exPlanations)**: Explains how each feature influences predictions.
-![SHAP Plot of Gradient Boosting Regressor]("ipynb files/SHAP Plot of Gradient Boosting Regressor.png")
+![SHAP Plot of Gradient Boosting Regressor](ipynb files/SHAP Plot of Gradient Boosting Regressor.png)
 - **Permutation Feature Importance**: Highlights the most impactful features.
-![Permutation Feature Importance of Gradient Boosting Regressor]("ipynb files/Permutation Feature Importance of Gradient Boosting Regressor.png")
+![Permutation Feature Importance of Gradient Boosting Regressor](ipynb files/Permutation Feature Importance of Gradient Boosting Regressor.png)
 
 These insights help potential tenants understand how factors like location, property size, and amenities affect rent, enabling smarter decisions.
 
