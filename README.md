@@ -1,7 +1,9 @@
 
 # House Searching Helper
 
-**House Searching Helper** is designed to give people looking for accommodation deeper insights into the housing market. This project used Scrapy to scrape data from a popular Dutch rental website to gather the latest information, which is stored in a regularly updated MySQL database. The project features two main applications: the **PowerBI Search Dashboard** and the **Price Prediction Machine Learning Models**.
+**House Searching Helper** is designed to give people looking for accommodation deeper insights into the housing market. This project used Scrapy to scrape data from a popular Dutch rental website to gather the latest information, which is stored in a regularly updated MySQL database. The project features two main applications: the **PowerBI Search Dashboard** and the **Price Prediction Machine Learning Models**. Here you can see the workflow of the Project:
+
+![Project Workflow](Process Overview_photo.jpg)
 
 ---
 
