@@ -31,8 +31,8 @@ To help users better understand rental prices and the factors influencing them, 
 
 ### Best Performing Model: Gradient Boosting Regressor
 The **Gradient Boosting Regressor** achieved:
-- **Mean Squared Error (MSE):** 0.0368
-- **R-Squared Value:** 0.8805
+- **Mean Squared Error (MSE):** 0.0348
+- **R-Squared Value:** 0.8826
 
 This shows that the model has a strong predictive ability and can estimate rent with high accuracy.
 
